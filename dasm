@@ -1,0 +1,16 @@
+#!/bin/bash
+# Author: abu, vital
+# Description: puts disassembled objectfile to std-out
+
+if [ $# = 2 ]; then
+        objdump --demangle=dlang -M intel -d $1 | awk -F"\n" -v RS="\n\n" '$1 ~ /'$2'/'
+elif [ $# = 1 ]; then
+        objdump --demangle=dlang -d $1 | awk -F"\n" -v RS="\n\n" '{ print $1 }'
+else
+    echo "You have to add argument(s)"
+    echo "Usage:   "$0 " arg1 arg2"
+    echo "Description: print disassembled label to std-out"
+    echo "             arg1: name of object file"
+    echo "             arg2: name of function to be disassembled"
+    echo "         "$0 " arg1    ... print labels and their rel. addresses"
+fi
