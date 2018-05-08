@@ -1,0 +1,21 @@
+# bash completion for dasm
+
+_dasm()
+{
+    local cur=${COMP_WORDS[COMP_CWORD]}
+
+    if [[ $COMP_CWORD -eq 1 ]] ; then
+	      # files
+	      COMPREPLY=( $( command ls *.o -F 2>/dev/null | grep "^$cur" ) )
+
+    elif [[ $COMP_CWORD -eq 2 ]] ; then
+	      # functions
+	      OBJFILE=${COMP_WORDS[COMP_CWORD-1]}
+	      COMPREPLY=( $( command nm --demangle=dlang $OBJFILE | grep " W " | cut -d " " -f 3 | tr "()" "  " | grep "^$cur" ) )
+
+    else
+	      COMPREPLY=($(compgen -W "" -- "$cur"));
+    fi
+}
+
+complete -F _dasm dasm
