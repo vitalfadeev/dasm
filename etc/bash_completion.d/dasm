@@ -11,7 +11,7 @@ _dasm()
     elif [[ $COMP_CWORD -eq 2 ]] ; then
 	      # functions
 	      OBJFILE=${COMP_WORDS[COMP_CWORD-1]}
-	      COMPREPLY=( $( command nm --demangle=dlang $OBJFILE | grep " W " | cut -d " " -f 3 | tr "()" "  " | grep "^$cur" ) )
+	      COMPREPLY=( $( command nm --demangle=dlang $OBJFILE | grep " W " | cut -d " " -f 3 | cut -d "(" -f 1 | grep "^$cur" ) )
 
     else
 	      COMPREPLY=($(compgen -W "" -- "$cur"));
